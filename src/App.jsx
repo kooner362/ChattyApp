@@ -30,6 +30,7 @@ class App extends Component {
     super(props);
     this.state = {messages: data.messages, currentUser: data.currentUser};
     this.addMessage = this.addMessage.bind(this);
+    this.ws = new WebSocket("ws://localhost:3001");
   }
 
   componentDidMount() {
@@ -46,6 +47,7 @@ class App extends Component {
   }
 
   addMessage(message) {
+    this.ws.send(JSON.stringify(message));
     const newMessages = this.state.messages.concat(message);
     this.setState({messages: newMessages});
   }
