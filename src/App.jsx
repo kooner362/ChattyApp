@@ -28,22 +28,35 @@ function NavBar() {
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {loading: true};
+    this.state = {messages: data.messages, currentUser: data.currentUser};
+    this.addMessage = this.addMessage.bind(this);
   }
+
   componentDidMount() {
-    this.setState({loading: false, messages: data.messages, currentUser: data.currentUser})
+    console.log("componentDidMount <App />");
+    setTimeout(() => {
+      console.log("Simulating incoming message");
+      // Add a new message to the list of messages in the data store
+      const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
+      const messages = this.state.messages.concat(newMessage)
+      // Update the state of the app component.
+      // Calling setState will trigger a call to render() in App and all child components.
+      this.setState({messages: messages})
+    }, 3000);
+  }
+
+  addMessage(message) {
+    const newMessages = this.state.messages.concat(message);
+    this.setState({messages: newMessages});
   }
 
   render() {
-    let currentUser = undefined;
-    if (!this.state.loading) {
-      currentUser = this.state.currentUser.name;
-    }
+    const currentUser = this.state.currentUser.name;
     return (
       <Fragment>
         {NavBar()}
         <MessageList messages={this.state.messages}/> 
-        <ChatBar currentUser= {currentUser}/>
+        <ChatBar addMessage={this.addMessage} currentUser= {currentUser}/>
       </Fragment>
     );
   }
