@@ -2,18 +2,21 @@ import React, {Component, Fragment} from 'react';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
 
-function NavBar() {
-  return (
-    <nav className="navbar">
-      <a href="/" className="navbar-brand">Chatty</a>
-      <span>help</span>
-    </nav>);
+class NavBar extends Component {
+  render () {
+    return (
+      <nav className="navbar">
+        <a href="/" className="navbar-brand">Chatty</a>
+        <span>{this.props.clients} users online</span>
+      </nav> 
+      );
+  }
 }
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {messages: [], currentUser: 'Bob'};
+    this.state = {messages: [], currentUser: 'Bob', clients: 0};
     this.addMessage = this.addMessage.bind(this);
     this.updateUser = this.updateUser.bind(this);
     this.showUserChange = this.showUserChange.bind(this);
@@ -25,7 +28,7 @@ class App extends Component {
     this.ws.onmessage = (event) => {
       let newMessage = JSON.parse(event.data);
       if (newMessage['clients'] !== undefined) {
-        console.log(newMessage.clients)
+        this.setState({clients: newMessage.clients});
       } else {
         if (newMessage.type === 'incomingMessage') {
           newMessage.type = 'postMessage';
@@ -57,7 +60,7 @@ class App extends Component {
   render() {
     return (
       <Fragment>
-        {NavBar()}
+        <NavBar clients={this.state.clients}/>
         <MessageList messages={this.state.messages}/> 
         <ChatBar showUserChange={this.showUserChange} updateUser={this.updateUser} addMessage={this.addMessage} currentUser= {this.state.currentUser}/>
       </Fragment>
