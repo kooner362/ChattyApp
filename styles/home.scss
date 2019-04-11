@@ -75,7 +75,7 @@ body {
   top: 0;
 }
 
-.navbar span {
+.navbar > span {
   float: right;
   margin-top: 1.5em;
 }
@@ -90,4 +90,9 @@ body {
   line-height: 60px;
   padding: 0 10px;
   text-decoration: none;
+}
+
+img {
+  margin-right: 5px;
+  margin-left: 5px;
 }
