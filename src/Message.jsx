@@ -3,11 +3,14 @@ import React, {Component} from 'react';
 
 class Message extends Component {
   render() {
-    console.log(this.props.message.type)
+    let color = {color: 'black'};
+    if (this.props.message.username['color']) {
+      color.color = this.props.message.username['color'];
+    }
     if (this.props.message.type == 'postMessage') {
       return (
         <div className="message">
-            <span className="message-username">{this.props.message.username}</span>
+            <span style={color} className="message-username">{this.props.message.username.name}</span>
             <span className="message-content">{this.props.message.content}</span>
         </div>
       );

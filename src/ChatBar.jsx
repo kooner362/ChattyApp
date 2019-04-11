@@ -21,16 +21,17 @@ class ChatBar extends Component {
     const handleKeyDownUser = (event) => {
       if (event.key === 'Enter') {
         let username = event.target.value;
-        let text = `**${this.props.currentUser}** changed their name to **${username}**.`;
+        let text = `**${this.props.currentUser.name}** changed their name to **${username}**.`;
         this.props.updateUser(username);
-        let message = {type: 'incomingNotification', username: username, content: text};
+        this.props.currentUser.name = username;
+        let message = {type: 'incomingNotification', username: this.props.currentUser, content: text};
         this.props.showUserChange(message);
       }
     };
 
     return (
       <footer className="chatbar">
-        <input name="user" onKeyDown={handleKeyDownUser} type="text" className="chatbar-username" defaultValue={this.props.currentUser} placeholder="Your Name (Optional)" />
+        <input name="user" onKeyDown={handleKeyDownUser} type="text" className="chatbar-username" defaultValue={this.props.currentUser.name} placeholder="Your Name (Optional)" />
         <input name="message" className="chatbar-message" onKeyDown={handleKeyDown} placeholder="Type a message and hit ENTER" />
       </footer>
     );

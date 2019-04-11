@@ -16,10 +16,11 @@ class NavBar extends Component {
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {messages: [], currentUser: 'Bob', clients: 0};
+    this.state = {messages: [], currentUser: {name: 'Bob'}, clients: 0};
     this.addMessage = this.addMessage.bind(this);
     this.updateUser = this.updateUser.bind(this);
     this.showUserChange = this.showUserChange.bind(this);
+    this.updateUserColor = this.updateUserColor.bind(this);
     this.ws = new WebSocket("ws://localhost:3001");
   }
 
@@ -32,6 +33,9 @@ class App extends Component {
       } else {
         if (newMessage.type === 'incomingMessage') {
           newMessage.type = 'postMessage';
+          if (this.state.currentUser['color'] === undefined) {
+            this.updateUserColor(newMessage.username.color);
+          }
           const newMessages = this.state.messages.concat(newMessage);
           this.setState({messages: newMessages})
         } else if (newMessage.type === 'incomingNotification') {
@@ -50,18 +54,26 @@ class App extends Component {
   }
 
   updateUser(name) {
-    this.setState({currentUser: name});
+    this.setState((prevState) => {
+      return {currentUser: {name: name, color: prevState.currentUser.color}};
+    });
   }
 
   showUserChange(message) {
     this.ws.send(JSON.stringify(message));
   }
 
+  updateUserColor(color) {
+    this.setState((prevState) => {
+      return {currentUser: {name: prevState.currentUser.name, color: color}};
+    });
+  }
+
   render() {
     return (
       <Fragment>
         <NavBar clients={this.state.clients}/>
-        <MessageList messages={this.state.messages}/> 
+        <MessageList updateColor={this.updateUserColor} messages={this.state.messages}/> 
         <ChatBar showUserChange={this.showUserChange} updateUser={this.updateUser} addMessage={this.addMessage} currentUser= {this.state.currentUser}/>
       </Fragment>
     );
