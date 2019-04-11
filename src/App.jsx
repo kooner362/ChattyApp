@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, {Component, Fragment} from 'react';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
@@ -21,7 +22,7 @@ class App extends Component {
     this.updateUser = this.updateUser.bind(this);
     this.showUserChange = this.showUserChange.bind(this);
     this.updateUserColor = this.updateUserColor.bind(this);
-    this.ws = new WebSocket("ws://localhost:3001");
+    this.ws = new WebSocket('ws://localhost:3001');
   }
 
   componentDidMount() {

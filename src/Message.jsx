@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 
 class Message extends Component {
   constructor(props) {
