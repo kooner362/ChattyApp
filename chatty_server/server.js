@@ -26,7 +26,6 @@ const assignColor = () => {
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
-  console.log('Client connected');
   clients++;
   wss.clients.forEach(function each(client) {
     if (client.readyState === WebSocket.OPEN) {
@@ -36,7 +35,6 @@ wss.on('connection', (ws) => {
 
   ws.on('message', (data) => {
     let message = JSON.parse(data);
-    console.log(message)
     if (message.username['color'] === undefined && message.type === 'incomingMessage') {
       message.username['color'] = assignColor();
     }
@@ -50,7 +48,6 @@ wss.on('connection', (ws) => {
   
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', () => {
-    console.log('Client disconnected');
     clients--;
     wss.clients.forEach(function each(client) {
       if (client.readyState === WebSocket.OPEN) {
@@ -59,4 +56,3 @@ wss.on('connection', (ws) => {
     });
   });
 });
-

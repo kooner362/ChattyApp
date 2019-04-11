@@ -24,12 +24,10 @@ class Message extends Component {
     let imgUrl = undefined;
     if (url !== null) {
       let regex = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/;
-      let index = content.indexOf(url);
       imgUrl = url;
       content = content.replace(regex, '');
     }
     if (this.props.message.type == 'postMessage') {
-      console.log(imgUrl);
       if (imgUrl) {
         return (
           <div className="message">
@@ -53,7 +51,6 @@ class Message extends Component {
         <div className="message system">{this.props.message.content}</div>
       );
     }
-    
   }
 }
 

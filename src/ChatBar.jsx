@@ -12,12 +12,6 @@ class ChatBar extends Component {
       }
     }
 
-    /**Is this necessary? required of onChange on username field */
-    const handleUser = (event) => {
-      let text = event.target.value;
-      this.props.updateUser(text);
-    };
-
     const handleKeyDownUser = (event) => {
       if (event.key === 'Enter') {
         let username = event.target.value;

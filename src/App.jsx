@@ -25,7 +25,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log("componentDidMount <App />");
     this.ws.onmessage = (event) => {
       let newMessage = JSON.parse(event.data);
       if (newMessage['clients'] !== undefined) {
