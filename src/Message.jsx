@@ -5,20 +5,27 @@ class Message extends Component {
   constructor(props) {
     super(props);
   }
-
-  checkImage(url) {
+  
+  /**
+   * Checks whether there is a url in the message 
+   * returns the url or null if not found
+   * @param {*} message 
+   */
+  checkImage(message) {
     let regex = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/;
-    if (url.match(regex) !== null) {
-      return url.match(regex)[0];
+    if (message.match(regex) !== null) {
+      return message.match(regex)[0];
     }
-    return url.match(regex);
+    return message.match(regex);
   }
 
   render() {
+    //Sets default color for username
     let color = {color: 'black'};
     if (this.props.message.username['color']) {
       color.color = this.props.message.username['color'];
     }
+    //If there is an image url split the content from the url
     let content = this.props.message.content;
     let url = this.checkImage(content);
     let imgUrl = undefined;
@@ -28,6 +35,7 @@ class Message extends Component {
       content = content.replace(regex, '');
     }
     if (this.props.message.type == 'postMessage') {
+      //Handle case for when the message has an image url
       if (imgUrl) {
         return (
           <div className="message">
@@ -40,6 +48,7 @@ class Message extends Component {
         );
       } else {
         return (
+          //Handle case for messages with no image url
           <div className="message">
               <span style={color} className="message-username">{this.props.message.username.name}</span>
               <span className="message-content">{content}</span>
@@ -48,6 +57,7 @@ class Message extends Component {
       }
     } else {
       return (
+        //Notification
         <div className="message system">{this.props.message.content}</div>
       );
     }

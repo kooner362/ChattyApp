@@ -28,16 +28,20 @@ class App extends Component {
   componentDidMount() {
     this.ws.onmessage = (event) => {
       let newMessage = JSON.parse(event.data);
+
+      //sets value for users online
       if (newMessage['clients'] !== undefined) {
         this.setState({clients: newMessage.clients});
       } else {
+        //Handles case for incomingMessage
         if (newMessage.type === 'incomingMessage') {
           newMessage.type = 'postMessage';
           if (this.state.currentUser['color'] === undefined) {
             this.updateUserColor(newMessage.username.color);
           }
           const newMessages = this.state.messages.concat(newMessage);
-          this.setState({messages: newMessages})
+          this.setState({messages: newMessages});
+          //Handles case for incomingNotification
         } else if (newMessage.type === 'incomingNotification') {
           newMessage.type = 'postNotification';
           const newMessages = this.state.messages.concat(newMessage);

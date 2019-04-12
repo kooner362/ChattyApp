@@ -3,6 +3,11 @@ import React, {Component} from 'react';
 
 class ChatBar extends Component {
   render() {
+
+    /**
+     * Handles event when user sends a message.
+     * @param {*} event 
+     */
     const handleKeyDown = (event) => {
       if (event.key === 'Enter') {
         let text = event.target.value;
@@ -12,13 +17,17 @@ class ChatBar extends Component {
       }
     }
 
+    /**
+     * Handles event when user hits enter to change username
+     * @param {*} event 
+     */
     const handleKeyDownUser = (event) => {
       if (event.key === 'Enter') {
         let username = event.target.value;
         if (username === '') {
           username = 'Anon';
         }
-        let text = `**${this.props.currentUser.name}** changed their name to **${username}**.`;
+        const text = `**${this.props.currentUser.name}** changed their name to **${username}**.`;
         this.props.updateUser(username);
         this.props.currentUser.name = username;
         let message = {type: 'incomingNotification', username: this.props.currentUser, content: text};
@@ -26,12 +35,16 @@ class ChatBar extends Component {
       }
     };
 
+    /**
+     * Handles event when user forgets to hit enter to change username
+     * @param {*} event 
+     */
     const blurHandler = (event) => {
       let username = event.target.value;
       if (username === '') {
         username = 'Anon';
       }
-      let text = `**${this.props.currentUser.name}** changed their name to **${username}**.`;
+      const text = `**${this.props.currentUser.name}** changed their name to **${username}**.`;
       this.props.updateUser(username);
       this.props.currentUser.name = username;
       let message = {type: 'incomingNotification', username: this.props.currentUser, content: text};
