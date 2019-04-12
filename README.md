@@ -4,7 +4,8 @@ ChattyApp is a simple network chatroom application. ChattyApp is built with Node
 ChattApp allows for URLs which contain image extensions to be displayed directly in the chatroom.
 
 ## Final Product
-
+!["Screenshot of User changing usernames."](https://raw.githubusercontent.com/kooner362/ChattyApp/master/docs/change_user.png)
+!["Screenshot of two users in chatroom"](https://raw.githubusercontent.com/kooner362/ChattyApp/master/docs/second_user.png)
 
 ## Getting Started
 1. Fork this repository, then clone your fork of this repository.
