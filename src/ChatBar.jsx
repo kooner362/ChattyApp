@@ -44,11 +44,13 @@ class ChatBar extends Component {
       if (username === '') {
         username = 'Anon';
       }
-      const text = `**${this.props.currentUser.name}** changed their name to **${username}**.`;
-      this.props.updateUser(username);
-      this.props.currentUser.name = username;
-      let message = {type: 'incomingNotification', username: this.props.currentUser, content: text};
-      this.props.showUserChange(message);
+      if (username !== this.props.currentUser.name) {
+        const text = `**${this.props.currentUser.name}** changed their name to **${username}**.`;
+        this.props.updateUser(username);
+        this.props.currentUser.name = username;
+        let message = {type: 'incomingNotification', username: this.props.currentUser, content: text};
+        this.props.showUserChange(message);
+      }
     }
 
     return (
