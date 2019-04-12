@@ -54,6 +54,9 @@ class App extends Component {
   }
 
   updateUser(name) {
+    if (name === '') {
+      name = 'Anon';
+    }
     this.setState((prevState) => {
       return {currentUser: {name: name, color: prevState.currentUser.color}};
     });

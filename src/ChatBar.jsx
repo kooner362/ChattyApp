@@ -15,6 +15,9 @@ class ChatBar extends Component {
     const handleKeyDownUser = (event) => {
       if (event.key === 'Enter') {
         let username = event.target.value;
+        if (username === '') {
+          username = 'Anon';
+        }
         let text = `**${this.props.currentUser.name}** changed their name to **${username}**.`;
         this.props.updateUser(username);
         this.props.currentUser.name = username;
