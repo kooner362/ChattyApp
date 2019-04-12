@@ -15,9 +15,12 @@ const server = express()
 
 // Create the WebSockets server
 const wss = new SocketServer({ server });
-let clients = 0;
-const colors = ['red', 'green', 'purple', 'blue'];
+let clients = 0; //Keeps track of connected clients
+const colors = ['red', 'green', 'purple', 'blue']; //colors for usernames
 
+/**
+ * Randomly returns a color from folors array
+ */
 const assignColor = () => {
   const randInt = Math.floor(Math.random() * 4);
   return colors[randInt];
@@ -27,6 +30,7 @@ const assignColor = () => {
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
   clients++;
+  //Send broadcast to update users online
   wss.clients.forEach(function each(client) {
     if (client.readyState === WebSocket.OPEN) {
       client.send(JSON.stringify({clients: clients}));
@@ -35,10 +39,13 @@ wss.on('connection', (ws) => {
 
   ws.on('message', (data) => {
     let message = JSON.parse(data);
+    //Assign color to user if they dont already have one
     if (message.username['color'] === undefined && message.type === 'incomingMessage') {
       message.username['color'] = assignColor();
     }
     message['id'] = uuid();
+
+    //Broadcast message back to all connected clients
     wss.clients.forEach(function each(client) {
       if (client.readyState === WebSocket.OPEN) {
           client.send(JSON.stringify(message));
@@ -48,6 +55,7 @@ wss.on('connection', (ws) => {
   
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', () => {
+    //Broadcast to all connected clients to update users online
     clients--;
     wss.clients.forEach(function each(client) {
       if (client.readyState === WebSocket.OPEN) {
